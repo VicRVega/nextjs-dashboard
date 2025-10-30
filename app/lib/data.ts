@@ -66,7 +66,10 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
-
+    //A common way to avoid waterfalls is to initiate all data requests at the same time - in parallel.
+    //using Promise.all() to initiate all three queries simultaneously.
+    //However, there is one disadvantage of relying only on this JavaScript pattern: what happens if one data request is slower than all the others? 
+    //Let's find out more in the next chapter (ch8).
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
