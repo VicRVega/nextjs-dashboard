@@ -34,6 +34,7 @@ export async function fetchRevenue() {
   }
 }
 
+//Fetch latest invoices for the <LatestInvoices/> component; fetch last 5 invoices sorted by date descending
 export async function fetchLatestInvoices() {
   try {
     const data = await sql<LatestInvoiceRaw[]>`
