@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 
+//icons here for the cards based on type
 const iconMap = {
   collected: BanknotesIcon,
   customers: UserGroupIcon,
