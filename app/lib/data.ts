@@ -9,6 +9,10 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
+//You can call sql anywhere on the server, like a Server Component. 
+//But to allow you to navigate the components more easily, we've kept all the data queries in the data.ts file,
+//and you can import them into the components.
+
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function fetchRevenue() {
