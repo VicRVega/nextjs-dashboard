@@ -2,10 +2,21 @@
 //<input> this is the search input 
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function Search({ placeholder }: { placeholder: string }) {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const {replace} = useRouter();
+
   function handleSearch(term:string){
-    console.log(term);
+    const params = new URLSearchParams(searchParams);
+    if(term){
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);
   }
   return (
     <div className="relative flex flex-1 flex-shrink-0">
@@ -26,4 +37,24 @@ export default function Search({ placeholder }: { placeholder: string }) {
 1. Create a new handleSearch function, 
 2. and add an onChange listener to the <input> element. 
 3. onChange will invoke handleSearch whenever the input value changes.
+*/
+
+//B. Update the URL with search params 
+/*
+1. Import the useSearchParams hook from next/navigation and assign it to a variable
+2. Inside handleSearch, create a new URLSearchParams instance using your new searchParams variable.
+3. URLSearchParams is a Web API that provides utility methods for manipulating the URL query parameters. 
+Instead of creating a complex string literal, you can use it to get the params string like ?page=1&query=a.
+Next, set the params string based on the user’s input. If the input is empty, you want to delete it
+
+4. Now that you have the query string. You can use Next.js's useRouter and usePathname hooks to update the URL.
+Import useRouter and usePathname from 'next/navigation', and use the replace method from useRouter() inside handleSearch:
+
+Here's a breakdown of what's happening:
+
+${pathname} is the current path, in your case, "/dashboard/invoices".
+As the user types into the search bar, params.toString() translates this input into a URL-friendly format.
+replace(${pathname}?${params.toString()}) updates the URL with the user's search data. For example, /dashboard/invoices?query=lee if the user searches for "Lee".
+The URL is updated without reloading the page, thanks to Next.js's client-side navigation (which you learned about in the chapter on navigating between pages
+
 */
