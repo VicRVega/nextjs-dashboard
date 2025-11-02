@@ -33,14 +33,14 @@ export default function Search({ placeholder }: { placeholder: string }) {
     </div>
   );
 }
-//Ch 10: A. capture the user's input in a search box
+//Ch 10: 1. capture the user's input in a search box
 /*
 1. Create a new handleSearch function, 
 2. and add an onChange listener to the <input> element. 
 3. onChange will invoke handleSearch whenever the input value changes.
 */
 
-//B. Update the URL with search params 
+//2. Update the URL with search params 
 /*
 1. Import the useSearchParams hook from next/navigation and assign it to a variable
 2. Inside handleSearch, create a new URLSearchParams instance using your new searchParams variable.
@@ -60,10 +60,21 @@ The URL is updated without reloading the page, thanks to Next.js's client-side n
 
 */
 
-//Ch 11: Keep URL and input in sync
+//3. Keep URL and input in sync
 /*
 To ensure the input field is in sync with the URL and will be populated when sharing, 
 you can pass a defaultValue to input by reading from searchParams:
 
 When you reload the page, the input field will still show.
 */
+
+//4. Updating the Table 
+/*
+1. Finally, you need to update the table component to reflect the search query.
+(Navigate back to the invoices page.)
+2. Page components accept a prop called searchParams, so you can pass the current URL params to the <Table> component.
+3. If you navigate to the <Table> Component, you'll see that the two props, 
+query and currentPage, are passed to the fetchFilteredInvoices() function which returns the invoices that match the query.
+4.With these changes in place, go ahead and test it out. If you search for a term, you'll update the URL, which will send a new request to the server, 
+data will be fetched on the server, and only the invoices that match your query will be returned.
+*/ 
