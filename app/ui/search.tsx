@@ -17,6 +17,8 @@ const handleSearch = useDebouncedCallback((term) => {
 
 
     const params = new URLSearchParams(searchParams);
+    params.set('page', '1'); //reset to page 1 on new search  
+
     if(term){
       params.set('query', term);
     } else {
@@ -40,6 +42,10 @@ const handleSearch = useDebouncedCallback((term) => {
     </div>
   );
 }
+
+
+
+
 //Ch 10: 1. capture the user's input in a search box
 /*
 1. Create a new handleSearch function, 
@@ -101,5 +107,31 @@ You can implement debouncing in a few ways, including manually creating your own
 Install use-debounce:
 
 In your <Search> Component, import a function called useDebouncedCallback:
+
+*/
+
+//6. Pagination 
+/*
+After introducing the search feature, you'll notice the table displays only 6 invoices at a time. 
+This is because the fetchFilteredInvoices() function in data.ts returns a maximum of 6 invoices per page.
+
+Adding pagination allows users to navigate through the different pages to view all the invoices. 
+Let's see how you can implement pagination using URL params, just like you did with search.
+
+1. Navigate to the <Pagination/> component and you'll notice that it's a Client Component. 
+You don't want to fetch data on the client as this would expose your database secrets (remember, you're not using an API layer). 
+Instead, you can fetch the data on the server, and pass it to the component as a prop.
+2. In /dashboard/invoices/page.tsx, import a new function called fetchInvoicesPages and pass the query from searchParams as an argument:
+
+fetchInvoicesPages returns the total number of pages based on the search query. 
+For example, if there are 12 invoices that match the search query, and each page displays 6 invoices, then the total number of pages would be 2.
+
+3. Next, pass the totalPages prop to the <Pagination/> component in /app/dashboard/invoices/page.tsx
+4. Navigate to the <Pagination> component. /app/ui/invoices/pagination.tsx and import the usePathname and useSearchParams hooks.
+ We will use this to get the current page and set the new page.
+ 5. Next, create a new function inside the <Pagination> Component called createPageURL. 
+ Similarly to the search, you'll use URLSearchParams to set the new page number, and pathName to create the URL string.
+ 6. Finally, when the user types a new search query, you want to reset the page number to 1. 
+ You can do this by updating the handleSearch function in your <Search> component:
 
 */
