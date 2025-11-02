@@ -3,13 +3,19 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce'; //debouncing 
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const {replace} = useRouter();
 
-  function handleSearch(term:string){
+//Ch11 Debouncing: This function will wrap the contents of handleSearch, and only run the code after a specific time once the user has stopped typing (300ms).
+const handleSearch = useDebouncedCallback((term) => {
+    //debouncing 
+    console.log(`Searching... ${term}`);
+
+
     const params = new URLSearchParams(searchParams);
     if(term){
       params.set('query', term);
@@ -17,7 +23,8 @@ export default function Search({ placeholder }: { placeholder: string }) {
       params.delete('query');
     }
     replace(`${pathname}?${params.toString()}`);
-  }
+  }, 300);
+
   return (
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
@@ -78,3 +85,21 @@ query and currentPage, are passed to the fetchFilteredInvoices() function which 
 4.With these changes in place, go ahead and test it out. If you search for a term, you'll update the URL, which will send a new request to the server, 
 data will be fetched on the server, and only the invoices that match your query will be returned.
 */ 
+
+//5. Debouncing
+/* You're updating the URL on every keystroke, and therefore querying your database on every keystroke! This isn't a problem as our application is small, but imagine if your application had thousands of users, each sending a new request to your database on each keystroke.
+
+Debouncing is a programming practice that limits the rate at which a function can fire. In our case, you only want to query the database when the user has stopped typing.
+
+How Debouncing Works:
+
+Trigger Event: When an event that should be debounced (like a keystroke in the search box) occurs, a timer starts.
+Wait: If a new event occurs before the timer expires, the timer is reset.
+Execution: If the timer reaches the end of its countdown, the debounced function is executed.
+You can implement debouncing in a few ways, including manually creating your own debounce function. To keep things simple, we'll use a library called use-debounce.
+
+Install use-debounce:
+
+In your <Search> Component, import a function called useDebouncedCallback:
+
+*/
