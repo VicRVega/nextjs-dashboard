@@ -46,7 +46,7 @@ export default async function Page() {
     //2. By default, Next.js prerenders routes to improve performance, this is called Static Rendering. So if your data changes, it won't be reflected in your dashboard.
     //Let's discuss number 1 in this chapter, then look into detail at number 2 in the next chapter(ch 8).
 
-//1. Waterfall: 
+//Ch 7 Waterfall: 
 /*For example, we need to wait for fetchRevenue() to execute before fetchLatestInvoices() can start running, and so on.
 This pattern is not necessarily bad. 
 There may be cases where you want waterfalls because you want a condition to be satisfied before you make the next request. 
@@ -54,3 +54,14 @@ For example, you might want to fetch a user's ID and profile information first.
 Once you have the ID, you might then proceed to fetch their list of friends. 
 In this case, each request is contingent on the data returned from the previous request.
 However, this behavior can also be unintentional and impact performance.*/
+
+//Ch 9 Streaming: 
+/*
+1. You could stream the whole page like we did with loading.tsx... but that may lead to a longer loading time if one of the components has a slow data fetch.
+2. You could stream every component individually... but that may lead to UI popping into the screen as it becomes ready.
+3. You could also create a staggered effect by streaming page sections. But you'll need to create wrapper components.
+
+Where you place your suspense boundaries will vary depending on your application. 
+In general, it's good practice to move your data fetches down to the components that need it, and then wrap those components in Suspense. 
+But there is nothing wrong with streaming the sections or the whole page if that's what your application needs.
+*/
