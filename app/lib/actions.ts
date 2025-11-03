@@ -64,6 +64,12 @@ export async function updateInvoice(id: string, formData: FormData) {
   redirect('/dashboard/invoices');
 }
 
+//new action deleteInvoice
+export async function deleteInvoice(id: string) {
+  await sql`DELETE FROM invoices WHERE id = ${id}`;
+  revalidatePath('/dashboard/invoices');
+}
+
 
 //Ch 12 CREATING an Invoice 
 /* 
@@ -104,4 +110,13 @@ Once the database has been updated, the /dashboard/invoices path will be revalid
 At this point, you also want to redirect the user back to the /dashboard/invoices page. You can do this with the redirect function from Next.js:
 
 
+*/
+
+
+//ch12 DELETE an Invoice
+/*
+To delete an invoice using a Server Action, wrap the delete button in a <form> element and pass the id to the Server Action using bind:
+Inside your actions.ts file, create a new action called deleteInvoice.
+
+Since this action is being called in the /dashboard/invoices path, you don't need to call redirect. Calling revalidatePath will trigger a new server request and re-render the table.
 */
