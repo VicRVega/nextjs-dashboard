@@ -51,9 +51,9 @@ export async function updateInvoice(id: string, formData: FormData) {
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
-  const amountInCents = amount * 100;
- 
+
+  const amountInCents = Math.round(Number(amount) * 100);
+
   await sql`
     UPDATE invoices
     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
