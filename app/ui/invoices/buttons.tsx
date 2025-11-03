@@ -1,6 +1,7 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
+//ch12. CREATING INVOICE BUTTON
 export function CreateInvoice() {
   return (
     <Link
@@ -13,10 +14,11 @@ export function CreateInvoice() {
   );
 }
 
+//ch12. UPDATING INVOICE BUTTON to accept id prop 
 export function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
-      href="/dashboard/invoices"
+      href={`/dashboard/invoices/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
