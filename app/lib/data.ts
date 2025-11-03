@@ -149,7 +149,7 @@ export async function fetchInvoicesPages(query: string) {
     throw new Error('Failed to fetch total number of invoices.');
   }
 }
-
+//Ch 13 handling erros with option 2: notFound function
 export async function fetchInvoiceById(id: string) {
   try {
     const data = await sql<InvoiceForm[]>`
@@ -168,7 +168,7 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
-    return invoice[0];
+    return invoice[0]; //ch 13 
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
