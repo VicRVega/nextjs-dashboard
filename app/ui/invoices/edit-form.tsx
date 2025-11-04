@@ -1,6 +1,7 @@
 'use client';
 //ch12 UPDATE step 4. Pass the id to the Server Action
-import { updateInvoice } from '@/app/lib/actions';
+import { updateInvoice, State } from '@/app/lib/actions';
+import { useActionState } from 'react'; //ch 14 Sever-side form validation
 
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
 import {
@@ -19,11 +20,12 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
-//pass id to the Server Action using JS bind
+const initialState: State = { message: null, errors: {} };
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+  const [state, formAction] = useActionState(updateInvoiceWithId, initialState);
 
   return (
-    <form action={updateInvoiceWithId}>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
