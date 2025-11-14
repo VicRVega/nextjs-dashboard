@@ -4,6 +4,8 @@ import { z } from 'zod'; //step 4 validation
 import { revalidatePath } from 'next/cache'; //step 6 revalidate
 import { redirect } from 'next/navigation'; //step 6 redirect
 import postgres from 'postgres'; //step 5 inserting in db 
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' }); //step 5
 
@@ -128,6 +130,26 @@ export async function deleteInvoice(id: string) {
   revalidatePath('/dashboard/invoices');
 }
 
+//ch14 auth 
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
+
 //CH14 ServerSide Validation 
 /*
 customerId - Zod already throws an error if the customer field is empty as it expects a type string. But let's add a friendly message if the user doesn't select a customer.
@@ -143,4 +165,13 @@ Then, change the Zod parse() function to safeParse():
 safeParse() will return an object containing either a success or error field. This will help handle validation more gracefully without having put this logic inside the try/catch block.
 
 Before sending the information to your database, check if the form fields were validated correctly with a conditional:
+*/
+
+/*
+Ch 14: step 4- Updating login form:
+- Now you need to connect the auth logic with your login form. 
+In your actions.ts file, create a new action called authenticate. This action should import the signIn function from auth.ts:
+- If there's a 'CredentialsSignin' error, you want to show an appropriate error message. You can learn about NextAuth.js errors in the documentation
+
+
 */
